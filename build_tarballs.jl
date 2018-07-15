@@ -63,5 +63,4 @@ dependencies = [
 ]
 
 # Build the tarballs, and possibly a `build.jl` as well.
-build_tarballs(ARGS, "BKMaxflow", sources, script, platforms, products, dependencies)
-
+build_tarballs(ARGS, "BKMaxflow", v"3.0.1", sources, script, platforms, products, dependencies)
