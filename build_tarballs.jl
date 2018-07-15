@@ -8,7 +8,7 @@ sources = [
     "b30891ba393a5fbc9d7d0ec808f502bdfca801f289a5cb79b673ac35c413b06e",
 
     "https://github.com/Gnimuc/bkmaxflow-c.git" =>
-    "ef5aed1c9e6ebd86571460b1f29fa060e04c95cf",
+    "3a789aa7ff167e2286a9c8fdeaec184031813019",
 
 ]
 
@@ -36,21 +36,7 @@ make install
 
 # These are the platforms we will build for by default, unless further
 # platforms are passed in on the command line
-platforms = [
-    Linux(:i686, :glibc),
-    Linux(:x86_64, :glibc),
-    Linux(:aarch64, :glibc),
-    Linux(:armv7l, :glibc, :eabihf),
-    Linux(:powerpc64le, :glibc),
-    Linux(:i686, :musl),
-    Linux(:x86_64, :musl),
-    Linux(:aarch64, :musl),
-    Linux(:armv7l, :musl, :eabihf),
-    MacOS(:x86_64),
-    FreeBSD(:x86_64),
-    Windows(:i686),
-    Windows(:x86_64)
-]
+platforms = BinaryBuilder.supported_platforms()
 
 # The products that we will ensure are always built
 products(prefix) = [
