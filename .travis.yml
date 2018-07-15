@@ -1,0 +1,40 @@
+language: julia
+os:
+  - linux
+julia:
+  - 0.6
+notifications:
+  email: false
+git:
+  depth: 99999999
+cache:
+  timeout: 1000
+  directories:
+    - downloads
+env:
+  global:
+    - BINARYBUILDER_DOWNLOADS_CACHE=downloads
+    - BINARYBUILDER_AUTOMATIC_APPLE=false
+sudo: required
+
+# Before anything else, get the latest versions of things
+before_script:
+  - julia -e 'Pkg.clone("https://github.com/JuliaPackaging/BinaryProvider.jl")'
+  - julia -e 'Pkg.clone("https://github.com/JuliaPackaging/BinaryBuilder.jl"); Pkg.build()'
+
+script:
+  - julia build_tarballs.jl
+
+
+deploy:
+    provider: releases
+    api_key:
+        # Note; this api_key is only valid for Gnimuc/BKMaxflowBuilder; you need
+        # to make your own: https://docs.travis-ci.com/user/deployment/releases/
+        secure: CMq3GBF/7xHKpVnvPKM56WYmkaFa6tl029mprNVf6Mg2jvER4IWtuegOOvV3kCFpfVKkLw2YY2v8suAbu3ozxcl36wFDwM3w4FLutwvh43jF/79fJ2JwZ6k0j1SQ7lva5zSssDabXvVZLp5Fj0sLQLa89J+OWMER1yrCtqj89PhtLB4BUknb471zGbnwf78URrfUVA7+tz9ebs0uwZg0wzj3gswQeZz2AHZwKc3ivUnAnm1UMUd9x7h9EzC5giigeTX7B5lsnR8HfmdwI4tHbr3rQr4EEmXzMT3eTNK0t00C5UyCPFX/cNtSqD5OQvVUdbo7F0/32tEwafAyhKcr3dRrcXVznfYZlJwWRJQbx4zl5dBRDnnSp3WC1LVb0SI19sVlgcknq5gCcPQPZHKLNP6yFEtGsJKLPSQY6I+v4sscORNbX2/kk8Cp0bfPdSPteOxu2v59MnhOo7nicZBvZHknNzB/NbAW9nj2/5HQR9D3JRvvXlfnFzSJrnwyreiI57X9JnhlKfW1nbBYMqgS2U++oZp7yIjVxPRmZzKsi+LYtIv/SoRwQHI2Cas/iWKPuk5c8YJS7qhNVTo3MOZc1XLOxmO7rtH5OW6PDeNny50J5Z5aifRPTUelC3A5o+jFgg43o/8F241WYg92Co2GCmXgWVDbHoHWyT6OcKV+T6I=
+    file_glob: true
+    file: products/*
+    skip_cleanup: true
+    on:
+        repo: Gnimuc/BKMaxflowBuilder
+        tags: true
